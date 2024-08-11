@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Ticket Booking Feedback Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('Assets/img 1/141473-best-travel-background-2560x1600-for-ipad-pro.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .feedback-form {
+            background-color: #00BFFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        .feedback-form h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .form-group button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+        }
+
+        .form-group .error {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+
+        .form-group.success .error {
+            display: none;
+        }
+
+        .form-group.error .error {
+            display: block;
+        }
+
+        .form-group.success input,
+        .form-group.success select,
+        .form-group.success textarea {
+            border-color: #4caf50;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="feedback-form">
+        <h2>Travel Ticket Booking Feedback</h2>
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name">
+                <div class="error">Name is required</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email">
+                <div class="error">Valid email is required</div>
+            </div>
+            <div class="form-group">
+                <label for="bookingNumber">Booking Number</label>
+                <input type="text" id="bookingNumber" name="bookingNumber">
+                <div class="error">Booking number is required</div>
+            </div>
+            <div class="form-group">
+                <label for="rating">Overall Experience</label>
+                <select id="rating" name="rating">
+                    <option value="">Select rating</option>
+                    <option value="excellent">Excellent</option>
+                    <option value="good">Good</option>
+                    <option value="average">Average</option>
+                    <option value="poor">Poor</option>
+                </select>
+                <div class="error">Please select a rating</div>
+            </div>
+            <div class="form-group">
+                <label for="comments">Comments</label>
+                <textarea id="comments" name="comments" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Submit Feedback</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let isValid = true;
+            const name = document.getElementById('name');
+            const email = document.getElementById('email');
+            const bookingNumber = document.getElementById('bookingNumber');
+            const rating = document.getElementById('rating');
+            const comments = document.getElementById('comments');
+
+            // Validate name
+            if (name.value.trim() === '') {
+                setError(name, 'Name is required');
+                isValid = false;
+            } else {
+                setSuccess(name);
+            }
+
+            // Validate email
+            if (!isValidEmail(email.value)) {
+                setError(email, 'Valid email is required');
+                isValid = false;
+            } else {
+                setSuccess(email);
+            }
+
+            // Validate booking number
+            if (bookingNumber.value.trim() === '') {
+                setError(bookingNumber, 'Booking number is required');
+                isValid = false;
+            } else {
+                setSuccess(bookingNumber);
+            }
+
+            // Validate rating
+            if (rating.value === '') {
+                setError(rating, 'Please select a rating');
+                isValid = false;
+            } else {
+                setSuccess(rating);
+            }
+
+            if (isValid) {
+                alert('Feedback submitted successfully!');
+                name.value = '';
+                email.value = '';
+                bookingNumber.value = '';
+                rating.value = '';
+                comments.value = '';
+                clearAllErrors();
+            }
+        });
+
+        function setError(element, message) {
+            const formGroup = element.parentElement;
+            const errorElement = formGroup.querySelector('.error');
+            errorElement.textContent = message;
+            formGroup.classList.add('error');
+            formGroup.classList.remove('success');
+        }
+
+        function setSuccess(element) {
+            const formGroup = element.parentElement;
+            formGroup.classList.add('success');
+            formGroup.classList.remove('error');
+        }
+
+        function isValidEmail(email) {
+            const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return re.test(email.trim());
+        }
+
+        function clearAllErrors() {
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach(group => group.classList.remove('error', 'success'));
+        }
+    </script>
+
+</body>
+
+</html>
